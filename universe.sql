@@ -170,7 +170,10 @@ ALTER SEQUENCE public.planet_planet_id_seq OWNED BY public.planet.planet_id;
 CREATE TABLE public.rocket (
     name character varying(30) NOT NULL,
     rocket_id integer NOT NULL,
-    has_life boolean NOT NULL
+    has_life boolean NOT NULL,
+    description text,
+    is_spherical boolean,
+    moon_id integer
 );
 
 
@@ -339,6 +342,10 @@ INSERT INTO public.planet VALUES ('haumea', 12, 100, 500.10, false, false, 'big'
 -- Data for Name: rocket; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
+INSERT INTO public.rocket VALUES ('mark', 1, false, 'safe', false, NULL);
+INSERT INTO public.rocket VALUES ('travis', 2, false, 'safe', false, NULL);
+INSERT INTO public.rocket VALUES ('kowalski', 3, false, 'intermediate', false, NULL);
+INSERT INTO public.rocket VALUES ('johnson', 4, false, 'danger', false, NULL);
 
 
 --
@@ -378,7 +385,7 @@ SELECT pg_catalog.setval('public.planet_planet_id_seq', 12, true);
 -- Name: rocket_rocket_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-SELECT pg_catalog.setval('public.rocket_rocket_id_seq', 1, false);
+SELECT pg_catalog.setval('public.rocket_rocket_id_seq', 4, true);
 
 
 --
@@ -490,6 +497,14 @@ ALTER TABLE ONLY public.planet
 
 ALTER TABLE ONLY public.moon
     ADD CONSTRAINT fk FOREIGN KEY (planet_id) REFERENCES public.planet(planet_id);
+
+
+--
+-- Name: rocket fk; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.rocket
+    ADD CONSTRAINT fk FOREIGN KEY (moon_id) REFERENCES public.moon(moon_id);
 
 
 --
